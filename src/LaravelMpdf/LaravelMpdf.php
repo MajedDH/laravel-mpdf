@@ -12,7 +12,7 @@ use Mpdf\Mpdf;
  * @author Carlos Meneses
  */
 class LaravelMpdf {
-	
+
 	protected $mpdf;
 	protected $config = [];
 
@@ -26,7 +26,7 @@ class LaravelMpdf {
 
 		$defaultFontConfig = (new \Mpdf\Config\FontVariables())->getDefaults();
 		$fontData = $defaultFontConfig['fontdata'];
-		
+
 		$this->mpdf = new Mpdf([
 			'mode' => $this->getConfig('mode'),
 			'format' => $this->getConfig('format'),
@@ -43,8 +43,8 @@ class LaravelMpdf {
 				$this->getConfig('custom_font_dir')
 			]),
 			'fontdata' => ($this->getConfig('custom_font_data')) ?: $fontData,
-			'default_font' => $this->getConfig('default_font'), 
-			'autoScriptToLang' => $this->getConfig('auto_language_detection'), 
+			'default_font' => $this->getConfig('default_font'),
+			'autoScriptToLang' => $this->getConfig('auto_language_detection'),
 			'autoLangToFont' => $this->getConfig('auto_language_detection'),
 			'tempDir' => ($this->getConfig('temp_dir')) ?: $tempDir,
 		]);
@@ -53,15 +53,13 @@ class LaravelMpdf {
 		$this->mpdf->SetAuthor        ( $this->getConfig('author') );
 		$this->mpdf->SetWatermarkText ( $this->getConfig('watermark') );
 		$this->mpdf->SetDisplayMode   ( $this->getConfig('display_mode') );
-		
+
             $this->mpdf->PDFA = $this->getConfig('pdfa') ?? false;
             $this->mpdf->PDFAauto = $this->getConfig('pdfaauto') ?? false;
 
 		$this->mpdf->showWatermarkText  = $this->getConfig('show_watermark');
 		$this->mpdf->watermark_font     = $this->getConfig('watermark_font');
 		$this->mpdf->watermarkTextAlpha = $this->getConfig('watermark_text_alpha');
-
-		$this->mpdf->WriteHTML($html);
 	}
 
 	protected function getConfig($key) {
@@ -71,7 +69,7 @@ class LaravelMpdf {
 			return Config::get('pdf.' . $key);
 		}
 	}
-	
+
 	/**
 	 * Get instance mpdf
 	 * @return static

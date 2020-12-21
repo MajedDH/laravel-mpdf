@@ -39,7 +39,10 @@ class LaravelMpdfWrapper {
 	 */
 	public function loadView($view, $data = [], $mergeData = [], $config = [])
 	{
-		return new LaravelMpdf(View::make($view, $data, $mergeData)->render(), $config);
-	}
+        $html = View::make($view, $data, $mergeData)->render();
+        $laravelMpdf = new LaravelMpdf($html, $config);
+        $laravelMpdf->getMpdf()->WriteHTML($html);
+        return $laravelMpdf;
+    }
 
 }
